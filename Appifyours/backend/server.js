@@ -61,6 +61,119 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
+// Function to process images and replace IDs with base64 data
+async function processImages(pages, userId) {
+  // Collect all image IDs from widgets
+  const imageIds = [];
+  
+  for (const page of pages) {
+    for (const widget of page.widgets) {
+      const properties = widget.properties || {};
+      
+      // Handle ProductGridWidget productCards
+      if (widget.name === 'ProductGridWidget' && properties.productCards) {
+        const productCards = properties.productCards || [];
+        for (const card of productCards) {
+          if (card.imageAsset && mongoose.Types.ObjectId.isValid(card.imageAsset)) {
+            imageIds.push(card.imageAsset);
+          }
+        }
+      }
+
+      // Handle ImageSliderWidget sliderImages
+      if (widget.name === 'ImageSliderWidget' && properties.sliderImages) {
+        const sliderImages = properties.sliderImages || [];
+        for (const image of sliderImages) {
+          if (image.imageAsset && mongoose.Types.ObjectId.isValid(image.imageAsset)) {
+            imageIds.push(image.imageAsset);
+          }
+        }
+      }
+    }
+  }
+
+  // Fetch all images for this user only
+  const images = await Image.find({
+    _id: { $in: imageIds },
+    userId: userId
+  });
+
+  const imageMap = {};
+  images.forEach(img => {
+    imageMap[img._id.toString()] = img.imageData;
+  });
+
+  // Replace image IDs with base64 data
+  for (const page of pages) {
+    for (const widget of page.widgets) {
+      const properties = widget.properties || {};
+
+      // Handle ProductGridWidget productCards
+      if (widget.name === 'ProductGridWidget' && properties.productCards) {
+        const productCards = properties.productCards || [];
+        for (const card of productCards) {
+          if (card.imageAsset && imageMap[card.imageAsset]) {
+            card.imageAsset = imageMap[card.imageAsset];
+          } else if (card.imageAsset && mongoose.Types.ObjectId.isValid(card.imageAsset)) {
+            // Image ID not found in database, set to empty string
+            card.imageAsset = '';
+          }
+        }
+      }
+
+      // Handle ImageSliderWidget sliderImages
+      if (widget.name === 'ImageSliderWidget' && properties.sliderImages) {
+        const sliderImages = properties.sliderImages || [];
+        for (const image of sliderImages) {
+          if (image.imageAsset && imageMap[image.imageAsset]) {
+            image.imageAsset = imageMap[image.imageAsset];
+          } else if (image.imageAsset && mongoose.Types.ObjectId.isValid(image.imageAsset)) {
+            // Image ID not found in database, set to empty string
+            image.imageAsset = '';
+          }
+        }
+      }
+    }
+  }
+
+  return pages;
+}
+
+// Function to process productCards images and replace IDs with base64 data
+async function processProductCards(productCards, userId) {
+  // Collect all image IDs from product cards
+  const imageIds = [];
+  
+  for (const card of productCards) {
+    if (card.imageAsset && mongoose.Types.ObjectId.isValid(card.imageAsset)) {
+      imageIds.push(card.imageAsset);
+    }
+  }
+
+  // Fetch all images for this user only
+  const images = await Image.find({
+    _id: { $in: imageIds },
+    userId: userId
+  });
+
+  const imageMap = {};
+  images.forEach(img => {
+    imageMap[img._id.toString()] = img.imageData;
+  });
+
+  // Replace image IDs with base64 data
+  for (const card of productCards) {
+    if (card.imageAsset && imageMap[card.imageAsset]) {
+      card.imageAsset = imageMap[card.imageAsset];
+    } else if (card.imageAsset && mongoose.Types.ObjectId.isValid(card.imageAsset)) {
+      // Image ID not found in database, set to empty string
+      card.imageAsset = '';
+    }
+  }
+
+  return productCards;
+}
+
 // API Routes
 
 // Get all products

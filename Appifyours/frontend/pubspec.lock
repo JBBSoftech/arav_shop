@@ -37,7 +37,7 @@ packages:
     dependency: transitive
     description:
       name: clock
-      sha256: cb6d7f03e1de671e34607e909a7213e31d7752be4fb66a86d29fe1eb14bfb5cf
+      sha256: cb6d7f03e1de671e34607e909a7213e31d7752be4fb66a86d29fe1eb14bfb5cf"
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
@@ -45,7 +45,7 @@ packages:
     dependency: transitive
     description:
       name: collection
-      sha256: f092b211a4319e98e5ff58223576de6c2803db36221657b46c82574721240687
+      sha256: f092b211a4319e98e5ff58223576de6c2803db36221657b46c82574721240687"
       url: "https://pub.dev"
     source: hosted
     version: "1.17.2"
@@ -53,7 +53,7 @@ packages:
     dependency: "direct main"
     description:
       name: cupertino_icons
-      sha256: d57953e10f9f8327ce64a508a355f0b1ec902193f66288e8cb5070e7c47eeb2d
+      sha256: d57953e10f9f8327ce64a508a355f0b1ec902193f66288e8cb5070e7c47eeb2d"
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
@@ -77,7 +77,7 @@ packages:
     dependency: transitive
     description:
       name: firebase_core_platform_interface
-      sha256: b63e3be6c96ef5c33bdec1aab23c91eb00696f6452f0519401d640938c94cba2
+      sha256: b63e3be6c96ef5c33bdec1aab23c91eb00696f6452f0519401d640938c94cba2"
       url: "https://pub.dev"
     source: hosted
     version: "4.8.0"
@@ -106,7 +106,7 @@ packages:
     dependency: "direct dev"
     description:
       name: flutter_lints
-      sha256: a25a15ebbdfc33ab1cd26c63a6ee519df92338a9c10f122adda92938253bef04
+      sha256: a25a15ebbdfc33ab1cd26c63a6ee519df92338a9c10f122adda92938253bef04"
       url: "https://pub.dev"
     source: hosted
     version: "2.0.3"
@@ -132,7 +132,7 @@ packages:
     dependency: transitive
     description:
       name: js
-      sha256: f2c445dce49627136094980615a031419f7f3eb393237e4ecd97ac15dea343f3
+      sha256: f2c445dce49627136094980615a031419f7f3eb393237e4ecd97ac15dea343f3"
       url: "https://pub.dev"
     source: hosted
     version: "0.6.7"
@@ -180,7 +180,7 @@ packages:
     dependency: transitive
     description:
       name: plugin_platform_interface
-      sha256: da3fdfeccc4d4ff2da8f8c556704c08f912542c5fb3cf2233ed75372384a034d
+      sha256: da3fdfeccc4d4ff2da8f8c556704c08f912542c5fb3cf2233ed75372384a034d"
       url: "https://pub.dev"
     source: hosted
     version: "2.1.6"
@@ -201,7 +201,7 @@ packages:
     dependency: transitive
     description:
       name: stack_trace
-      sha256: c3c7d8edb15bee7f0f74debd4b9c5f3c2ea86766fe4178eb2a18eb30a0bdaed5
+      sha256: c3c7d8edb15bee7f0f74debd4b9c5f3c2ea86766fe4178eb2a18eb30a0bdaed5"
       url: "https://pub.dev"
     source: hosted
     version: "1.11.0"
@@ -225,7 +225,7 @@ packages:
     dependency: transitive
     description:
       name: term_glyph
-      sha256: a29248a84fbb7c79282b40b8c72a1209db169a2e0542bce341da992fe1bc7e84
+      sha256: a29248a84fbb7c79282b40b8c72a1209db169a2e0542bce341da992fe1bc7e84"
       url: "https://pub.dev"
     source: hosted
     version: "1.2.1"
@@ -249,7 +249,7 @@ packages:
     dependency: transitive
     description:
       name: web
-      sha256: dc8ccd225a2005c1be616fe02951e2e342092edf968cf0844220383757ef8f10
+      sha256: dc8ccd225a2005c1be616fe02951e2e342092edf968cf0844220383757ef8f10"
       url: "https://pub.dev"
     source: hosted
     version: "0.1.4-beta"

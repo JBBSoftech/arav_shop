@@ -1,22 +1,23 @@
 # Flutter
-.dart-tool/
-.flutter-plugins
-.flutter-plugins-dependencies
-.packages
-.pub-cache/
-.build/
+  .dart-tool/
+  .flutter-plugins
+  .flutter-plugins-dependencies
+  .packages
+  .pub-cache/
+  .build/
 
-# IDE
-.idea/
-.vscode/
+  # IDE
+  .idea/
+  .vscode/
 
-# Android
-*.iml
-*.hprof
-*.zip
-*.apk
-*.aab
+  # Android
+  *.iml
+  *.hprof
+  *.zip
+  *.apk
+  *.aab
 
-# Other
-.DS_Store
-*.log
+  # Other
+  .DS_Store
+  *.log
+  

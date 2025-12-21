@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:appifyours/config/environment.dart';
+import 'package:frontend/config/environment.dart';
 
 // Define PriceUtils class
 class PriceUtils {
@@ -171,7 +171,7 @@ class WishlistItem {
     required this.price,
     this.discountPrice = 0.0,
     this.image,
-    this.currencySymbol = '\$',
+    this.currencySymbol = '$',
   });
   
   double get effectivePrice => discountPrice > 0 ? discountPrice : price;
@@ -513,7 +513,7 @@ class AdminManager {
   static Future<String?> _autoDetectAdminId() async {
     try {
       final response = await http.get(
-        Uri.parse('http://10.171.35.227:5000/api/admin/app-info'),
+        Uri.parse('http://192.168.0.7:5000/api/admin/app-info'),
         headers: {'Content-Type': 'application/json'},
       );
       
@@ -1120,6 +1120,15 @@ class _HomePageState extends State<HomePage> {
           if (pages.isNotEmpty && pages.first is Map && (pages.first as Map)['widgets'] is List) {
             extractedWidgets = List<Map<String, dynamic>>.from((pages.first as Map)['widgets']);
           }
+          
+          // Sort widgets to ensure HeaderWidget appears first
+          extractedWidgets.sort((a, b) {
+            bool aIsHeader = a['name'] == 'HeaderWidget';
+            bool bIsHeader = b['name'] == 'HeaderWidget';
+            if (aIsHeader && !bIsHeader) return -1;
+            if (!aIsHeader && bIsHeader) return 1;
+            return 0;
+          });
 
           final storeInfo = (config['storeInfo'] is Map) ? Map<String, dynamic>.from(config['storeInfo']) : <String, dynamic>{};
 
@@ -1623,7 +1632,7 @@ class _HomePageState extends State<HomePage> {
         );
 
       case 'ImageSliderWidget':
-        // Dynamic ImageSlider Widget - matches preview exactly
+        // Dynamic ImageSlider Widget - fetch from API like web preview
         final height = double.tryParse(props['height']?.toString() ?? '150') ?? 150.0;
         final width = double.tryParse(props['width']?.toString() ?? '300') ?? 300.0;
         final borderRadius = double.tryParse(props['borderRadius']?.toString() ?? '12') ?? 12.0;
@@ -1631,9 +1640,27 @@ class _HomePageState extends State<HomePage> {
         final autoPlayInterval = int.tryParse(props['autoPlayInterval']?.toString() ?? '3') ?? 3;
         final showIndicators = props['showIndicators'] ?? true;
         final enableInfiniteScroll = true;
-        final sliderImages = props['sliderImages'] != null
-            ? List<Map<String, dynamic>>.from(props['sliderImages'])
-            : <Map<String, dynamic>>[];
+        
+        // Use dynamic slider images from API like web preview
+        List<Map<String, dynamic>> sliderImages = [];
+        
+        // Find ImageSliderWidget in dynamic home widgets and extract sliderImages
+        if (_homeWidgets.isNotEmpty) {
+          for (var widget in _homeWidgets) {
+            if (widget is Map && widget['name'] == 'ImageSliderWidget') {
+              var widgetProps = widget['properties'] ?? {};
+              if (widgetProps['sliderImages'] != null) {
+                sliderImages = List<Map<String, dynamic>>.from(widgetProps['sliderImages']);
+                break;
+              }
+            }
+          }
+        }
+        
+        // Fallback to static props if no dynamic images found
+        if (sliderImages.isEmpty && props['sliderImages'] != null) {
+          sliderImages = List<Map<String, dynamic>>.from(props['sliderImages']);
+        }
 
         return Container(
           padding: const EdgeInsets.all(16),

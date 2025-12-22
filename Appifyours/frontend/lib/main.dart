@@ -6,12 +6,12 @@
   import 'package:shared_preferences/shared_preferences.dart';
   import 'package:appifyours/config/environment.dart';
   import 'package:carousel_slider/carousel_slider.dart';
-  import 'package:shared_preferences/shared_preferences.dart';
+
 
   // Define PriceUtils class
   class PriceUtils {
     static String formatPrice(double price, {String currency = '\$'}) {
-      return '$currency\${price.toStringAsFixed(2)}';
+      return '$currency${price.toStringAsFixed(2)}';
     }
     
     // Extract numeric value from price string with any currency symbol
@@ -25,7 +25,7 @@
     // Detect currency symbol from price string
     static String detectCurrency(String priceString) {
       if (priceString.contains('₹')) return '₹';
-      if (priceString.contains('\$')) return '\$';
+      if (priceString.contains('$')) return '$';
       if (priceString.contains('€')) return '€';
       if (priceString.contains('£')) return '£';
       if (priceString.contains('¥')) return '¥';
@@ -33,7 +33,7 @@
       if (priceString.contains('₽')) return '₽';
       if (priceString.contains('₦')) return '₦';
       if (priceString.contains('₨')) return '₨';
-      return '\$'; // Default to dollar
+      return '$'; // Default to dollar
     }
 
     static String currencySymbolFromCode(String code) {

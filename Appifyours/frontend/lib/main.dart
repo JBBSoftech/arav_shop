@@ -467,7 +467,7 @@ void main() => runApp(const MyApp());
   // API Configuration - Auto-updated with your server details
   class ApiConfig {
     static String get baseUrl => Environment.apiBase;
-    static const String adminObjectId = '694667a8cc43a00315d0a542'; // Will be replaced during publish
+    static const String adminObjectId = '6949198770edffbc6a776154'; // Will be replaced during publish
   }
 
   // Dynamic Admin ID Detection
@@ -487,7 +487,7 @@ void main() => runApp(const MyApp());
         }
         
         // Fallback to the hardcoded admin ID from generation
-        if (ApiConfig.adminObjectId != '694667a8cc43a00315d0a542') {
+        if (ApiConfig.adminObjectId != '6949198770edffbc6a776154') {
           _currentAdminId = ApiConfig.adminObjectId;
           return ApiConfig.adminObjectId;
         }
@@ -513,7 +513,7 @@ void main() => runApp(const MyApp());
     static Future<String?> _autoDetectAdminId() async {
       try {
         final response = await http.get(
-          Uri.parse('http://10.171.35.227:5000/api/admin/app-info'),
+          Uri.parse('http://192.168.0.17:5000/api/admin/app-info'),
           headers: {'Content-Type': 'application/json'},
         );
         

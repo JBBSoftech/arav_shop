@@ -5,6 +5,8 @@
   import 'package:socket_io_client/socket_io_client.dart' as IO;
   import 'package:shared_preferences/shared_preferences.dart';
   import 'package:appifyours/config/environment.dart';
+  import 'package:carousel_slider/carousel_slider.dart';
+  import 'package:shared_preferences/shared_preferences.dart';
 
   // Define PriceUtils class
   class PriceUtils {
@@ -33,6 +35,23 @@
       if (priceString.contains('₨')) return '₨';
       return '\$'; // Default to dollar
     }
+
+    static String currencySymbolFromCode(String code) {
+    switch (code.toUpperCase()) {
+      case 'USD': return '$';
+      case 'EUR': return '€';
+      case 'GBP': return '£';
+      case 'JPY': return '¥';
+      case 'INR': return '₹';
+      case 'CNY': return '¥';
+      case 'KRW': return '₩';
+      case 'RUB': return '₽';
+      case 'NGN': return '₦';
+      case 'AUD': return 'A$';
+      case 'CAD': return 'C$';
+      default: return '$';
+    }
+  }
     
     static double calculateDiscountPrice(double originalPrice, double discountPercentage) {
       return originalPrice * (1 - discountPercentage / 100);
@@ -59,6 +78,7 @@
     final double discountPrice;
     int quantity;
     final String? image;
+    final String currencySymbol;
     
     CartItem({
       required this.id,
@@ -67,6 +87,7 @@
       this.discountPrice = 0.0,
       this.quantity = 1,
       this.image,
+      this.currencySymbol = '$',
     });
     
     double get effectivePrice => discountPrice > 0 ? discountPrice : price;
@@ -435,7 +456,7 @@ void main() => runApp(const MyApp());
           backgroundColor: Colors.blue,
           foregroundColor: Colors.white,
         ),
-        cardTheme: const CardThemeData(
+        cardTheme: const CardTheme(
           elevation: 4,
           shadowColor: Colors.black12,
           shape: RoundedRectangleBorder(

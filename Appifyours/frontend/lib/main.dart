@@ -7,9 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:appifyours/config/environment.dart'; // Fixed import path
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:appifyours/services/api_service.dart';
-// Fixed CarouselController import to avoid conflict
-import 'package:carousel_slider/carousel_controller.dart' as carousel;
-import 'package:carousel_slider/carousel_controller.dart' hide CarouselController;
 
 // Define PriceUtils class
 class PriceUtils {
@@ -1668,8 +1665,6 @@ class _HomePageState extends State<HomePage> {
         final sliderImages = props['sliderImages'] != null
             ? List<Map<String, dynamic>>.from(props['sliderImages'])
             : <Map<String, dynamic>>[];
-            
-        final carouselController = carousel.CarouselController();
 
         return Container(
           padding: const EdgeInsets.all(16),
@@ -1684,8 +1679,7 @@ class _HomePageState extends State<HomePage> {
                         maxWidth: width,
                         maxHeight: height + 20, // Add padding to prevent overflow
                       ),
-                      child: CarouselSlider(
-                        carouselController: carouselController,
+                      child: CarouselSlider.builder(
                         options: CarouselOptions(
                           height: height,
                           autoPlay: autoPlay,
@@ -1698,46 +1692,44 @@ class _HomePageState extends State<HomePage> {
                           viewportFraction: 0.8,
                           enlargeFactor: 0.3,
                         ),
-                        items: sliderImages.map((imageData) {
-                          return Builder(
-                            builder: (BuildContext context) {
-                              return Container(
-                                margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[300],
+                        itemCount: sliderImages.length,
+                        itemBuilder: (context, index, realIndex) {
+                          final imageData = sliderImages[index];
+                          return Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(borderRadius),
+                            ),
+                            child: Stack(
+                              children: [
+                                ClipRRect(
                                   borderRadius: BorderRadius.circular(borderRadius),
+                                  child: imageData['imageAsset']?.isNotEmpty == true
+                                      ? imageData['imageAsset'].toString().startsWith('data:image/')
+                                          ? Image.memory(
+                                              base64Decode(imageData['imageAsset'].toString().split(',')[1]),
+                                              width: double.infinity,
+                                              height: height,
+                                              fit: BoxFit.cover,
+                                            )
+                                          : Image.network(
+                                              imageData['imageAsset'].toString(),
+                                              width: double.infinity,
+                                              height: height,
+                                              fit: BoxFit.cover,
+                                            )
+                                      : Container(
+                                          color: Colors.grey[300],
+                                          child: const Center(
+                                            child: Icon(Icons.image, size: 40, color: Colors.grey),
+                                          ),
+                                        ),
                                 ),
-                                child: Stack(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(borderRadius),
-                                      child: imageData['imageAsset']?.isNotEmpty == true
-                                          ? imageData['imageAsset'].toString().startsWith('data:image/')
-                                              ? Image.memory(
-                                                  base64Decode(imageData['imageAsset'].toString().split(',')[1]),
-                                                  width: double.infinity,
-                                                  height: height,
-                                                  fit: BoxFit.cover,
-                                                )
-                                              : Image.network(
-                                                  imageData['imageAsset'].toString(),
-                                                  width: double.infinity,
-                                                  height: height,
-                                                  fit: BoxFit.cover,
-                                                )
-                                          : Container(
-                                              color: Colors.grey[300],
-                                              child: const Center(
-                                                child: Icon(Icons.image, size: 40, color: Colors.grey),
-                                              ),
-                                            ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
+                              ],
+                            ),
                           );
-                        }).toList(),
+                        },
                       ),
                     ),
                     if (showIndicators)
@@ -1747,7 +1739,10 @@ class _HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: sliderImages.asMap().entries.map((entry) {
                           return GestureDetector(
-                            onTap: () => carouselController.animateToPage(entry.key),
+                            onTap: () {
+                              // Navigate to specific slide - using PageView would be better
+                              // For now, just visual feedback
+                            },
                             child: Container(
                               width: 6.0,
                               height: 6.0,

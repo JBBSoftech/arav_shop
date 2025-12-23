@@ -8,7 +8,7 @@ import 'package:appifyours/config/environment.dart'; // Fixed import path
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:appifyours/services/api_service.dart';
 // Fixed CarouselController import to avoid conflict
-import 'package:carousel_slider/carousel_controller.dart' hide CarouselController;
+import 'package:carousel_slider/carousel_controller.dart' as carousel;
 
 // Define PriceUtils class
 class PriceUtils {

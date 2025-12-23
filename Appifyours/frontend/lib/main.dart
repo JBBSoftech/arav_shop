@@ -7,7 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:appifyours/config/environment.dart'; // Fixed import path
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:appifyours/services/api_service.dart';
-import 'package:carousel_slider/carousel_controller.dart' as carousel;
+// Fixed CarouselController import to avoid conflict
+import 'package:carousel_slider/carousel_controller.dart' hide CarouselController;
 
 // Define PriceUtils class
 class PriceUtils {
@@ -242,14 +243,14 @@ class WishlistManager extends ChangeNotifier {
   }
 }
 
-// Dynamic Configuration from Form
-final String gstNumber = '\$gstNumber'; // Escaped the dollar sign
-final String selectedCategory = '\$selectedCategory'; // Escaped the dollar sign
+// Dynamic Configuration from Form - Fixed string interpolation
+final String gstNumber = 'GST123456'; // Fixed: Removed dollar sign
+final String selectedCategory = 'Electronics'; // Fixed: Removed dollar sign
 final Map<String, dynamic> storeInfo = {
-  'storeName': '\${storeInfo['storeName'] ?? 'My Store'}', // Escaped the dollar sign
-  'address': '\${storeInfo['address'] ?? '123 Main St'}', // Escaped the dollar sign
-  'email': '\${storeInfo['email'] ?? 'support@example.com'}', // Escaped the dollar sign
-  'phone': '\${storeInfo['phone'] ?? '(123) 456-7890'}', // Escaped the dollar sign
+  'storeName': 'My Store', // Fixed: Removed string interpolation
+  'address': '123 Main St', // Fixed: Removed string interpolation
+  'email': 'support@example.com', // Fixed: Removed string interpolation
+  'phone': '(123) 456-7890', // Fixed: Removed string interpolation
 };
 
 // Dynamic Product Data - Will be loaded from backend
@@ -291,11 +292,11 @@ class DynamicAppSync {
         'timeout': 5000,
       };
 
-      _socket = IO.io('\$apiBase/real-time-updates', options); // Escaped the dollar sign
+      _socket = IO.io('$apiBase/real-time-updates', options); // Fixed: Removed escaped dollar sign
       _setupSocketListeners();
       
     } catch (e) {
-      print('DynamicAppSync: Error connecting: \$e'); // Escaped the dollar sign
+      print('DynamicAppSync: Error connecting: $e'); // Fixed: Removed escaped dollar sign
     }
   }
 
@@ -317,7 +318,7 @@ class DynamicAppSync {
     });
 
     _socket!.on('dynamic-update', (data) {
-      print('DynamicAppSync: Received update: \$data'); // Escaped the dollar sign
+      print('DynamicAppSync: Received update: $data'); // Fixed: Removed escaped dollar sign
       if (!_updateController.isClosed) {
         _updateController.add(Map<String, dynamic>.from(data));
       }
@@ -362,10 +363,10 @@ Future<void> loadDynamicProductData() async {
     
     // Get dynamic admin ID
     final adminId = await AdminManager.getCurrentAdminId();
-    print('🔍 Loading dynamic data with admin ID: \${adminId}'); // Escaped the dollar sign
+    print('🔍 Loading dynamic data with admin ID: ${adminId}'); // Fixed: Removed escaped dollar sign
     
     final response = await http.get(
-      Uri.parse('\${Environment.apiBase}/api/get-form?adminId=\${adminId}'), // Escaped the dollar signs
+      Uri.parse('${Environment.apiBase}/api/get-form?adminId=${adminId}'), // Fixed: Removed escaped dollar signs
       headers: {'Content-Type': 'application/json'},
     );
     
@@ -392,15 +393,15 @@ Future<void> loadDynamicProductData() async {
         //   isLoading = false;
         // });
         
-        print('✅ Loaded \${productCards.length} dynamic products'); // Escaped the dollar sign
+        print('✅ Loaded ${productCards.length} dynamic products'); // Fixed: Removed escaped dollar sign
       } else {
         throw Exception('Invalid response format');
       }
     } else {
-      throw Exception('HTTP \${response.statusCode}'); // Escaped the dollar sign
+      throw Exception('HTTP ${response.statusCode}'); // Fixed: Removed escaped dollar sign
     }
   } catch (e) {
-    print('❌ Error loading dynamic data: \$e'); // Escaped the dollar sign
+    print('❌ Error loading dynamic data: $e'); // Fixed: Removed escaped dollar sign
     // setState(() {
     //   errorMessage = e.toString();
     //   isLoading = false;
@@ -421,7 +422,7 @@ void startRealTimeUpdates() async {
       // if (!mounted) return; // This needs to be inside a StatefulWidget
       
       final type = update['type']?.toString().toLowerCase();
-      print('📱 Received real-time update: \$type'); // Escaped the dollar sign
+      print('📱 Received real-time update: $type'); // Fixed: Removed escaped dollar sign
       
       switch (type) {
         case 'home-page':
@@ -544,7 +545,7 @@ class AdminManager {
         }
       }
     } catch (e) {
-      print('Auto-detection failed: \$e'); // Escaped the dollar sign
+      print('Auto-detection failed: $e'); // Fixed: Removed escaped dollar sign
     }
     return null;
   }
@@ -555,9 +556,9 @@ class AdminManager {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('admin_id', adminId);
       _currentAdminId = adminId;
-      print('✅ Admin ID set: \${adminId}'); // Escaped the dollar sign
+      print('✅ Admin ID set: ${adminId}'); // Fixed: Removed escaped dollar sign
     } catch (e) {
-      print('Error setting admin ID: \${e}'); // Escaped the dollar sign
+      print('Error setting admin ID: ${e}'); // Fixed: Removed escaped dollar sign
     }
   }
 }
@@ -583,10 +584,10 @@ class _SplashScreenState extends State<SplashScreen> {
     try {
       // Get dynamic admin ID
       final adminId = await AdminManager.getCurrentAdminId();
-      print('🔍 Splash screen using admin ID: \${adminId}'); // Escaped the dollar sign
+      print('🔍 Splash screen using admin ID: ${adminId}'); // Fixed: Removed escaped dollar sign
       
       final response = await http.get(
-        Uri.parse('\${Environment.apiBase}/api/admin/splash?adminId=\${adminId}'), // Escaped the dollar signs
+        Uri.parse('${Environment.apiBase}/api/admin/splash?adminId=${adminId}'), // Fixed: Removed escaped dollar signs
       );
       
       if (response.statusCode == 200) {
@@ -595,10 +596,10 @@ class _SplashScreenState extends State<SplashScreen> {
           setState(() {
             _appName = data['appName'] ?? 'AppifyYours';
           });
-          print('✅ Splash screen loaded app name: \${_appName}'); // Escaped the dollar sign
+          print('✅ Splash screen loaded app name: ${_appName}'); // Fixed: Removed escaped dollar sign
         }
       } else {
-        print('⚠️ Splash screen API error: \${response.statusCode}'); // Escaped the dollar sign
+        print('⚠️ Splash screen API error: ${response.statusCode}'); // Fixed: Removed escaped dollar sign
         if (mounted) {
           setState(() {
             _appName = 'AppifyYours';
@@ -606,7 +607,7 @@ class _SplashScreenState extends State<SplashScreen> {
         }
       }
     } catch (e) {
-      print('Error fetching app name: \${e}'); // Escaped the dollar sign
+      print('Error fetching app name: ${e}'); // Fixed: Removed escaped dollar sign
       // If admin ID not found, show default and let user configure
       if (mounted) {
         setState(() {
@@ -707,7 +708,7 @@ class _SignInPageState extends State<SignInPage> {
 
     try {
       final response = await http.post(
-        Uri.parse('\${Environment.apiBase}/api/login'), // Escaped the dollar sign
+        Uri.parse('${Environment.apiBase}/api/login'), // Fixed: Removed escaped dollar sign
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
           'email': _emailController.text.trim(),
@@ -737,7 +738,7 @@ class _SignInPageState extends State<SignInPage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Sign in failed: \${e.toString().replaceAll("Exception: ", "")}'), // Escaped the dollar sign
+            content: Text('Sign in failed: ${e.toString().replaceAll("Exception: ", "")}'), // Fixed: Removed escaped dollar sign
             backgroundColor: Colors.red,
           ),
         );
@@ -1125,10 +1126,10 @@ class _HomePageState extends State<HomePage> {
     try {
       // Get dynamic admin ID
       final adminId = await AdminManager.getCurrentAdminId();
-      print('🔍 Home page using admin ID: \${adminId}'); // Escaped the dollar sign
+      print('🔍 Home page using admin ID: ${adminId}'); // Fixed: Removed escaped dollar sign
       
       final response = await http.get(
-        Uri.parse('\${Environment.apiBase}/api/app/dynamic/\${adminId}'), // Escaped the dollar signs
+        Uri.parse('${Environment.apiBase}/api/app/dynamic/${adminId}'), // Fixed: Removed escaped dollar signs
         headers: {'Content-Type': 'application/json'},
       );
 
@@ -1154,11 +1155,11 @@ class _HomePageState extends State<HomePage> {
             _dynamicStoreInfo = storeInfo;
             _isLoading = false;
           });
-          print('✅ Loaded \${_dynamicProductCards.length} products from backend'); // Escaped the dollar sign
+          print('✅ Loaded ${_dynamicProductCards.length} products from backend'); // Fixed: Removed escaped dollar sign
         }
       }
     } catch (e) {
-      print('❌ Error loading dynamic data: \$e'); // Escaped the dollar sign
+      print('❌ Error loading dynamic data: $e'); // Fixed: Removed escaped dollar sign
       setState(() => _isLoading = false);
     }
   }
@@ -2062,7 +2063,7 @@ class _HomePageState extends State<HomePage> {
     try {
       final adminId = await AdminManager.getCurrentAdminId();
       final response = await http.get(
-        Uri.parse('\${Environment.apiBase}/api/get-form?adminId=\$adminId'), // Escaped the dollar signs
+        Uri.parse('${Environment.apiBase}/api/get-form?adminId=$adminId'), // Fixed: Removed escaped dollar signs
         headers: {'Content-Type': 'application/json'},
       );
 
@@ -2145,7 +2146,7 @@ class _HomePageState extends State<HomePage> {
     try {
       final adminId = await AdminManager.getCurrentAdminId();
       final response = await http.get(
-        Uri.parse('\${Environment.apiBase}/api/get-form?adminId=\$adminId'), // Escaped the dollar signs
+        Uri.parse('${Environment.apiBase}/api/get-form?adminId=$adminId'), // Fixed: Removed escaped dollar signs
         headers: {'Content-Type': 'application/json'},
       );
 

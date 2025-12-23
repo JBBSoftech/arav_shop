@@ -6,6 +6,7 @@
   import 'package:shared_preferences/shared_preferences.dart';
   import 'package:appifyours/config/environment.dart';
   import 'package:carousel_slider/carousel_slider.dart';
+  import 'package:appifyours/serices/api_service.dart';
 
 
   // Define PriceUtils class

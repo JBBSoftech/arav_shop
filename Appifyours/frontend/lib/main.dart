@@ -25,7 +25,7 @@
     // Detect currency symbol from price string
     static String detectCurrency(String priceString) {
       if (priceString.contains('₹')) return '₹';
-      if (priceString.contains('$')) return '\$';
+      if (priceString.contains('$')) return '$';
       if (priceString.contains('€')) return '€';
       if (priceString.contains('£')) return '£';
       if (priceString.contains('¥')) return '¥';
@@ -38,7 +38,7 @@
 
     static String currencySymbolFromCode(String code) {
     switch (code.toUpperCase()) {
-      case 'USD': return '\$';
+      case 'USD': return '$';
       case 'EUR': return '€';
       case 'GBP': return '£';
       case 'JPY': return '¥';
@@ -47,9 +47,9 @@
       case 'KRW': return '₩';
       case 'RUB': return '₽';
       case 'NGN': return '₦';
-      case 'AUD': return 'A\$';
-      case 'CAD': return 'C\$';
-      default: return '\$';
+      case 'AUD': return 'A$';
+      case 'CAD': return 'C$';
+      default: return '$';
     }
   }
     

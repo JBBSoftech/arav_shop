@@ -7,6 +7,7 @@
   import 'package:appifyours/config/environment.dart';
   import 'package:carousel_slider/carousel_slider.dart';
   import 'package:appifyours/services/api_service.dart';
+  import 'package:carousel_slider/carousel_controller.dart' as carousel;
 
 
   // Define PriceUtils class
@@ -496,7 +497,7 @@ void main() => runApp(const MyApp());
   // API Configuration - Auto-updated with your server details
   class ApiConfig {
     static String get baseUrl => Environment.apiBase;
-    static const String adminObjectId = '6949198770edffbc6a776154'; // Will be replaced during publish
+    static const String adminObjectId = '69466717cc43a00315d0a52f'; // Will be replaced during publish
   }
 
   // Dynamic Admin ID Detection
@@ -516,7 +517,7 @@ void main() => runApp(const MyApp());
         }
         
         // Fallback to the hardcoded admin ID from generation
-        if (ApiConfig.adminObjectId != '6949198770edffbc6a776154') {
+        if (ApiConfig.adminObjectId != '69466717cc43a00315d0a52f') {
           _currentAdminId = ApiConfig.adminObjectId;
           return ApiConfig.adminObjectId;
         }

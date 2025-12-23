@@ -6,7 +6,7 @@
   import 'package:shared_preferences/shared_preferences.dart';
   import 'package:appifyours/config/environment.dart';
   import 'package:carousel_slider/carousel_slider.dart';
-  import 'package:appifyours/serices/api_service.dart';
+  import 'package:appifyours/services/api_service.dart';
 
 
   // Define PriceUtils class
@@ -100,6 +100,13 @@
     final List<CartItem> _items = [];
     double _gstPercentage = 18.0; // Default GST percentage
     double _discountPercentage = 0.0; // Default discount percentage
+
+    int get totalQuantity => _items.fold(0, (sum, item) => sum + item.quantity);
+  
+  String get displayCurrencySymbol {
+    if (_items.isEmpty) return '$';
+    return _items.first.currencySymbol;
+  }
     
     List<CartItem> get items => List.unmodifiable(_items);
     

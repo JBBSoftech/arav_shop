@@ -9,6 +9,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:appifyours/services/api_service.dart';
 // Fixed CarouselController import to avoid conflict
 import 'package:carousel_slider/carousel_controller.dart' as carousel;
+import 'package:carousel_slider/carousel_controller.dart' hide CarouselController;
 
 // Define PriceUtils class
 class PriceUtils {
@@ -1667,6 +1668,8 @@ class _HomePageState extends State<HomePage> {
         final sliderImages = props['sliderImages'] != null
             ? List<Map<String, dynamic>>.from(props['sliderImages'])
             : <Map<String, dynamic>>[];
+            
+        final carouselController = carousel.CarouselController();
 
         return Container(
           padding: const EdgeInsets.all(16),
@@ -1682,6 +1685,7 @@ class _HomePageState extends State<HomePage> {
                         maxHeight: height + 20, // Add padding to prevent overflow
                       ),
                       child: CarouselSlider(
+                        carouselController: carouselController,
                         options: CarouselOptions(
                           height: height,
                           autoPlay: autoPlay,
@@ -1743,7 +1747,7 @@ class _HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: sliderImages.asMap().entries.map((entry) {
                           return GestureDetector(
-                            onTap: () {},
+                            onTap: () => carouselController.animateToPage(entry.key),
                             child: Container(
                               width: 6.0,
                               height: 6.0,

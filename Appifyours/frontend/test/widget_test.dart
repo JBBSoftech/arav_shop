@@ -8,6 +8,11 @@ void main() {
     await tester.pumpWidget(const MyApp());
 
     // Verify that the app builds without errors
-    expect(find.byType(MaterialApp), findsOneWidget);
+    // The app should show the SplashScreen first
+    expect(find.byType(SplashScreen), findsOneWidget);
+    
+    // Verify the splash screen content
+    expect(find.byIcon(Icons.shopping_bag), findsOneWidget);
+    expect(find.text('Loading...'), findsOneWidget);
   });
 }
